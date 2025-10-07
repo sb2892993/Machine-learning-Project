@@ -1,0 +1,52 @@
+#wworkflow name
+name: Deploy to heroku.
+
+#run workflow on every push to main branch. whenever we send the changes to the github
+#then the main will trigger 
+on:
+  push:
+   branches: [main]
+
+#your workflow jobs.
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      #checkout your repository
+   - name: checkout
+      uses: actions/checkout@v2
+
+#important part
+
+    - name: Build,push and release a docker container to heroku. #your custom step name
+      uses: Gonuit/heroku-docker-deploy@v1.3.3 # github action name(leave it as it is)as its already created by someone and we're using it. the docker run -t and all will be taken care by this line.
+      
+
+      with:
+      #below you must provide variables for your heroku app.
+      #the email address associated with your heroku account.
+      #if you  dont want to use repository secrets(which is rrecommended)you can do :
+      #email: my email@example.com
+
+      email:${{secrets.HEROKU_EMAIL}}
+
+      #HEROKU API KEY
+      HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+
+      #HEROKU APP NAME:
+      HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
+
+      #OPTIONAL,default: "./"
+      #dockerfile directory .
+      #example: if you have dockerfile in root of project,leave it as follows:
+      dockerfile_directory: ./
+
+      #dockerfile name:
+      dockerfile_name: dockerfile
+
+      #additional options of docker build command.
+      docker_options: "--no-cache"
+
+      #select the process type for which you want the docker container to be uploaded.
+      #by default,this argument is set to "web"
+      process_type: web
