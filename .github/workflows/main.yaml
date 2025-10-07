@@ -2,7 +2,7 @@
 name: Deploy to heroku.
 
 #run workflow on every push to main branch. whenever we send the changes to the github
-#then the main will trigger 
+#then the main will trigger . This is ci/cd pipeline.
 on:
   push:
    branches: [main]
@@ -10,19 +10,19 @@ on:
 #your workflow jobs.
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #from github machine will be allocated
     steps:
       #checkout your repository
-   - name: checkout
+    - name: checkout
       uses: actions/checkout@v2
 
 #important part
 
     - name: Build,push and release a docker container to heroku. #your custom step name
       uses: Gonuit/heroku-docker-deploy@v1.3.3 # github action name(leave it as it is)as its already created by someone and we're using it. the docker run -t and all will be taken care by this line.
-      
 
-      with:
+
+    with:
       #below you must provide variables for your heroku app.
       #the email address associated with your heroku account.
       #if you  dont want to use repository secrets(which is rrecommended)you can do :
