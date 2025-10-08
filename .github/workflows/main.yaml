@@ -29,5 +29,5 @@ jobs:
         run: |
           render services update ${{ secrets.RENDER_SERVICE_ID }} \
           --branch main \
-          --dockerfile ./Dockerfile \
+          --Dockerfile ./Dockerfile \
           --no-cache
